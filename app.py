@@ -25,120 +25,90 @@ model = genai.GenerativeModel('gemini-2.5-flash')
 # --- 3. DESIGN SYSTEM (CSS PREMIUM) ---
 st.markdown("""
     <style>
-    /* Importation des polices */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,700&display=swap');
 
-    /* Variables de couleurs */
     :root {
         --primary-color: #FF4B4B;
-        --bg-color: #FAFAFA;
-        --text-main: #1A1C1E;
-        --text-secondary: #636E72;
+        --bg-color: #FFFFFF;
+        --text-main: #1A1C1E; /* Noir profond */
+        --text-secondary: #4A4A4A;
         --card-border: #E9ECEF;
     }
 
+    /* Fond de l'application */
     .stApp {
-        background-color: var(--bg-color);
+        background-color: var(--bg-color) !important;
     }
 
-    /* Style global */
-    .main .block-container {
-        padding-top: 3rem;
-        max-width: 800px;
-    }
-
-    h1 {
-        font-family: 'Fraunces', serif !important;
-        font-weight: 700 !important;
+    /* --- FIX VISIBILITÉ CHARGEMENT (SPINNER) --- */
+    /* On force le texte du spinner et l'icône à être visibles */
+    div[data-testid="stStatusWidget"] div {
         color: var(--text-main) !important;
-        font-size: 3rem !important;
-        margin-bottom: 0.5rem !important;
-        text-align: center;
+    }
+    
+    .stSpinner > div > div {
+        color: var(--text-main) !important;
     }
 
-    .stMarkdown p {
+    /* --- FIX TITRES ET TEXTE --- */
+    /* On cible spécifiquement les titres pour éviter le blanc sur blanc */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Fraunces', serif !important;
+        color: var(--text-main) !important;
+        font-weight: 700 !important;
+    }
+
+    .stMarkdown p, .stCaption {
         font-family: 'Inter', sans-serif !important;
-        color: var(--text-secondary);
-        text-align: center;
+        color: var(--text-secondary) !important;
     }
 
-    /* Input barre d'URL */
+    /* --- DESIGN DES INPUTS --- */
     div[data-baseweb="input"] {
-        border-radius: 16px !important;
+        border-radius: 12px !important;
         border: 1px solid var(--card-border) !important;
-        background-color: white !important;
-        padding: 5px !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+        background-color: #F8F9FA !important;
+    }
+    
+    input {
+        color: var(--text-main) !important;
     }
 
-    /* Bouton Extraire */
+    /* --- BOUTON --- */
     .stButton button {
         background-color: var(--text-main) !important;
         color: white !important;
-        border-radius: 14px !important;
-        height: 54px !important;
-        font-weight: 600 !important;
-        letter-spacing: 0.5px;
+        border-radius: 12px !important;
+        width: 100%;
+        height: 50px;
         border: none !important;
-        transition: all 0.2s ease-in-out;
-        margin-top: 10px;
+        font-weight: 600 !important;
     }
-
+    
     .stButton button:hover {
         background-color: var(--primary-color) !important;
-        transform: scale(1.01);
+        color: white !important;
     }
 
-    /* Cartes de résultats */
-    .stInfo, div[data-testid="stMetricValue"] {
-        background-color: white !important;
-        border: 1px solid var(--card-border) !important;
-        border-radius: 20px !important;
-        padding: 1.5rem !important;
-        color: var(--text-main) !important;
-    }
-
-    /* Ingrédients style moderne */
+    /* --- CARTES INGRÉDIENTS --- */
     .ingredient-row {
-        background-color: white;
-        padding: 12px 18px;
-        border-radius: 12px;
-        margin-bottom: 10px;
-        border: 1px solid #F1F3F5;
+        background-color: #F8F9FA;
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+        border-left: 4px solid var(--primary-color);
+        color: var(--text-main) !important;
         display: flex;
-        align-items: center;
-        transition: all 0.2s ease;
+        justify-content: flex-start;
     }
 
-    .ingredient-row:hover {
-        border-color: var(--primary-color);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    }
-
-    /* Style du Segmented Control */
-    div[data-testid="stSegmentedControl"] {
-        background: #F1F3F5;
-        padding: 4px;
-        border-radius: 12px;
-    }
-
-    div[data-testid="stSegmentedControl"] button {
+    /* --- INFOS (TEMPS / PORTIONS) --- */
+    .stInfo {
+        background-color: #FFF5F5 !important;
+        color: var(--text-main) !important;
         border: none !important;
-        background: transparent !important;
-        border-radius: 8px !important;
+        border-radius: 12px !important;
     }
-
-    div[data-testid="stSegmentedControl"] button[data-selected="true"] {
-        background: white !important;
-        color: var(--primary-color) !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-    }
-
-    hr {
-        margin: 2em 0 !important;
-        opacity: 0.4;
-    }
-
     </style>
 """, unsafe_allow_html=True)
 
@@ -247,4 +217,5 @@ if st.button("Extraire la recette"):
                                 <span style="color:#1A1C1E;">{unit} {item}</span>
                             </div>
                         """, unsafe_allow_html=True)
+
 
