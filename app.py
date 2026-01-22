@@ -19,7 +19,7 @@ except Exception as e:
     st.stop()
 
 # Modèle : Gemini 2.0 Flash est le plus rapide pour ce projet
-model = genai.GenerativeModel('gemini-2.0-flash-exp')
+model = genai.GenerativeModel('gemini-2.5-flash')
 
 # --- 3. DESIGN SYSTEM (CSS) ---
 st.markdown("""
@@ -133,4 +133,5 @@ if st.button("Extraire la recette"):
                 
                 st.subheader("Instructions")
                 for i, step in enumerate(recipe.get('etapes', []), 1):
+
                     st.write(f"**{i}.** {step}")
