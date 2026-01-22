@@ -22,18 +22,92 @@ except Exception as e:
 model = genai.GenerativeModel('gemini-2.5-flash')
 
 # --- 3. DESIGN SYSTEM (CSS) ---
+# --- 3. DESIGN SYSTEM (CSS COMPLET & MODERNE) ---
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap');
-    .stApp { background-color: #F9F9F5; }
-    h1, h2, h3 { font-family: 'Playfair Display', serif !important; color: #2C3E50; }
+    /* Importation des polices */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Playfair+Display:wght@700;900&display=swap');
+
+    /* Configuration globale du fond et du texte */
+    .stApp {
+        background-color: #FFFFFF !important;
+        color: #1A1A1A !important;
+    }
+
+    /* Forcer la couleur du texte pour TOUS les éléments */
+    .stMarkdown, p, span, label, li, h1, h2, h3, div {
+        color: #1A1A1A !important;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Titres élégants en Serif */
+    h1, h2, h3 {
+        font-family: 'Playfair Display', serif !important;
+        font-weight: 900 !important;
+        letter-spacing: -0.5px;
+    }
+
+    /* Barre d'input (URL) */
+    .stTextInput input {
+        border-radius: 12px !important;
+        border: 2px solid #E0E0E0 !important;
+        padding: 12px !important;
+        background-color: #F8F9FA !important;
+        color: #1A1A1A !important;
+    }
+
+    /* Bouton "Extraire" style Premium */
+    .stButton button {
+        width: 100%;
+        background-color: #1A1A1A !important;
+        color: white !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        font-weight: 800 !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: none !important;
+        transition: all 0.3s ease;
+    }
+    .stButton button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        background-color: #333333 !important;
+    }
+
+    /* Sélecteur de Portions (Segmented Control) */
+    div[data-testid="stSegmentedControl"] {
+        gap: 10px !important;
+    }
     div[data-testid="stSegmentedControl"] button {
-        border-radius: 20px !important; border: 1px solid #E0E0E0 !important; font-family: 'Inter', sans-serif;
+        background-color: #F0F2F6 !important;
+        border: none !important;
+        border-radius: 10px !important;
+        color: #1A1A1A !important;
+        font-weight: 600 !important;
     }
     div[data-testid="stSegmentedControl"] button[data-selected="true"] {
-        background-color: #2C3E50 !important; color: white !important;
+        background-color: #FF4B4B !important; /* Rouge corail pour la sélection */
+        color: white !important;
     }
-    .stInfo { background-color: white; border-radius: 15px; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+
+    /* Cartes d'info (Temps / Portions) */
+    .stInfo {
+        background-color: #F8F9FA !important;
+        border: 1px solid #EEEEEE !important;
+        border-radius: 16px !important;
+        padding: 20px !important;
+    }
+
+    /* Liste d'ingrédients stylisée */
+    .ing-card {
+        background: white;
+        border-left: 4px solid #FF4B4B;
+        padding: 10px 15px;
+        margin-bottom: 8px;
+        border-radius: 4px 12px 12px 4px;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.03);
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -126,12 +200,14 @@ if st.button("Extraire la recette"):
                 st.subheader("Ingrédients")
                 for ing in recipe.get('ingredients', []):
                     q = ing.get('quantite')
-                    if q:
+                    unit = ing.get('unite', '')
+                    item = ing.get('item', '')
+                    
+                    # Correction ici : on vérifie que q est bien un nombre avant de multiplier
+                    if isinstance(q, (int, float)):
                         v = q * ratio
-                        st.write(f"- **{int(v) if v.is_integer() else round(v,1)} {ing.get('unite','')}** {ing.get('item')}")
-                    else: st.write(f"- {ing.get('item')}")
-                
-                st.subheader("Instructions")
-                for i, step in enumerate(recipe.get('etapes', []), 1):
-
-                    st.write(f"**{i}.** {step}")
+                        display_val = int(v) if v.is_integer() else round(v, 1)
+                        st.write(f"- **{display_val} {unit}** {item}")
+                    else:
+                        # Si pas de quantité, on affiche juste l'unité et l'item (ex: "Sel")
+                        st.write(f"- {unit} {item}")
