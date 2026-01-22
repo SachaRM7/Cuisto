@@ -30,87 +30,64 @@ st.markdown("""
     :root {
         --primary-color: #FF4B4B;
         --bg-color: #FFFFFF;
-        --text-main: #1A1C1E; /* Noir profond */
+        --text-main: #1A1C1E;
         --text-secondary: #4A4A4A;
-        --card-border: #E9ECEF;
     }
 
-    /* Fond de l'application */
-    .stApp {
-        background-color: var(--bg-color) !important;
+    /* Fond global */
+    .stApp { background-color: var(--bg-color) !important; }
+
+    /* Correction texte de chargement (Spinner) */
+    div[data-testid="stStatusWidget"] div, 
+    div[data-testid="stStatusWidget"] span,
+    .stSpinner > div > div { 
+        color: var(--text-main) !important; 
     }
 
-    /* --- FIX VISIBILITÉ CHARGEMENT (SPINNER) --- */
-    /* On force le texte du spinner et l'icône à être visibles */
-    div[data-testid="stStatusWidget"] div {
-        color: var(--text-main) !important;
+    /* Correction Titres */
+    h1, h2, h3, h4, span[data-testid="stHeader"] { 
+        font-family: 'Fraunces', serif !important; 
+        color: var(--text-main) !important; 
     }
+
+    /* Correction Barre de recherche (Input) */
+    .stTextInput label { color: var(--text-main) !important; font-weight: 600 !important; }
     
-    .stSpinner > div > div {
-        color: var(--text-main) !important;
-    }
-
-    /* --- FIX TITRES ET TEXTE --- */
-    /* On cible spécifiquement les titres pour éviter le blanc sur blanc */
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Fraunces', serif !important;
-        color: var(--text-main) !important;
-        font-weight: 700 !important;
-    }
-
-    .stMarkdown p, .stCaption {
-        font-family: 'Inter', sans-serif !important;
-        color: var(--text-secondary) !important;
-    }
-
-    /* --- DESIGN DES INPUTS --- */
     div[data-baseweb="input"] {
         border-radius: 12px !important;
-        border: 1px solid var(--card-border) !important;
+        border: 1px solid #E9ECEF !important;
         background-color: #F8F9FA !important;
     }
     
     input {
+        color: #1A1C1E !important; 
+        -webkit-text-fill-color: #1A1C1E !important; /* Pour Chrome/Safari */
+    }
+
+    /* Ingrédients stylisés */
+    .ing-card {
+        background: #F8F9FA;
+        border-left: 4px solid var(--primary-color);
+        padding: 12px 15px;
+        margin-bottom: 8px;
+        border-radius: 4px 12px 12px 4px;
         color: var(--text-main) !important;
     }
 
-    /* --- BOUTON --- */
+    /* Bouton */
     .stButton button {
         background-color: var(--text-main) !important;
         color: white !important;
         border-radius: 12px !important;
         width: 100%;
         height: 50px;
-        border: none !important;
-        font-weight: 600 !important;
-    }
-    
-    .stButton button:hover {
-        background-color: var(--primary-color) !important;
-        color: white !important;
-    }
-
-    /* --- CARTES INGRÉDIENTS --- */
-    .ingredient-row {
-        background-color: #F8F9FA;
-        padding: 12px 16px;
-        border-radius: 10px;
-        margin-bottom: 8px;
-        border-left: 4px solid var(--primary-color);
-        color: var(--text-main) !important;
-        display: flex;
-        justify-content: flex-start;
-    }
-
-    /* --- INFOS (TEMPS / PORTIONS) --- */
-    .stInfo {
-        background-color: #FFF5F5 !important;
-        color: var(--text-main) !important;
-        border: none !important;
-        border-radius: 12px !important;
+        font-weight: 600;
     }
     </style>
 """, unsafe_allow_html=True)
+
+st.title("🍳 Le Clone 'Clipper' Cuisine")
+st.caption("Analyse multimodale : Audio + Texte via Gemini Flash")
 
 # --- 4. FONCTION D'EXTRACTION ---
 def get_instagram_text(url):
@@ -217,5 +194,6 @@ if st.button("Extraire la recette"):
                                 <span style="color:#1A1C1E;">{unit} {item}</span>
                             </div>
                         """, unsafe_allow_html=True)
+
 
 
