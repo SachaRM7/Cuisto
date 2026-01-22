@@ -21,98 +21,126 @@ except Exception as e:
 # Modèle : Gemini 2.0 Flash est le plus rapide pour ce projet
 model = genai.GenerativeModel('gemini-2.5-flash')
 
-# --- 3. DESIGN SYSTEM (CSS) ---
 # --- 3. DESIGN SYSTEM (CSS COMPLET & MODERNE) ---
+# --- 3. DESIGN SYSTEM (CSS PREMIUM) ---
 st.markdown("""
     <style>
     /* Importation des polices */
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Playfair+Display:wght@700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,700&display=swap');
 
-    /* Configuration globale du fond et du texte */
+    /* Variables de couleurs */
+    :root {
+        --primary-color: #FF4B4B;
+        --bg-color: #FAFAFA;
+        --text-main: #1A1C1E;
+        --text-secondary: #636E72;
+        --card-border: #E9ECEF;
+    }
+
     .stApp {
-        background-color: #FFFFFF !important;
-        color: #1A1A1A !important;
+        background-color: var(--bg-color);
     }
 
-    /* Forcer la couleur du texte pour TOUS les éléments */
-    .stMarkdown, p, span, label, li, h1, h2, h3, div {
-        color: #1A1A1A !important;
-        font-family: 'Plus Jakarta Sans', sans-serif;
+    /* Style global */
+    .main .block-container {
+        padding-top: 3rem;
+        max-width: 800px;
     }
 
-    /* Titres élégants en Serif */
-    h1, h2, h3 {
-        font-family: 'Playfair Display', serif !important;
-        font-weight: 900 !important;
-        letter-spacing: -0.5px;
+    h1 {
+        font-family: 'Fraunces', serif !important;
+        font-weight: 700 !important;
+        color: var(--text-main) !important;
+        font-size: 3rem !important;
+        margin-bottom: 0.5rem !important;
+        text-align: center;
     }
 
-    /* Barre d'input (URL) */
-    .stTextInput input {
-        border-radius: 12px !important;
-        border: 2px solid #E0E0E0 !important;
-        padding: 12px !important;
-        background-color: #F8F9FA !important;
-        color: #1A1A1A !important;
+    .stMarkdown p {
+        font-family: 'Inter', sans-serif !important;
+        color: var(--text-secondary);
+        text-align: center;
     }
 
-    /* Bouton "Extraire" style Premium */
-    .stButton button {
-        width: 100%;
-        background-color: #1A1A1A !important;
-        color: white !important;
-        border-radius: 12px !important;
-        padding: 15px !important;
-        font-weight: 800 !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        border: none !important;
-        transition: all 0.3s ease;
-    }
-    .stButton button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        background-color: #333333 !important;
-    }
-
-    /* Sélecteur de Portions (Segmented Control) */
-    div[data-testid="stSegmentedControl"] {
-        gap: 10px !important;
-    }
-    div[data-testid="stSegmentedControl"] button {
-        background-color: #F0F2F6 !important;
-        border: none !important;
-        border-radius: 10px !important;
-        color: #1A1A1A !important;
-        font-weight: 600 !important;
-    }
-    div[data-testid="stSegmentedControl"] button[data-selected="true"] {
-        background-color: #FF4B4B !important; /* Rouge corail pour la sélection */
-        color: white !important;
-    }
-
-    /* Cartes d'info (Temps / Portions) */
-    .stInfo {
-        background-color: #F8F9FA !important;
-        border: 1px solid #EEEEEE !important;
+    /* Input barre d'URL */
+    div[data-baseweb="input"] {
         border-radius: 16px !important;
-        padding: 20px !important;
+        border: 1px solid var(--card-border) !important;
+        background-color: white !important;
+        padding: 5px !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
     }
 
-    /* Liste d'ingrédients stylisée */
-    .ing-card {
-        background: white;
-        border-left: 4px solid #FF4B4B;
-        padding: 10px 15px;
-        margin-bottom: 8px;
-        border-radius: 4px 12px 12px 4px;
-        box-shadow: 2px 2px 10px rgba(0,0,0,0.03);
+    /* Bouton Extraire */
+    .stButton button {
+        background-color: var(--text-main) !important;
+        color: white !important;
+        border-radius: 14px !important;
+        height: 54px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.5px;
+        border: none !important;
+        transition: all 0.2s ease-in-out;
+        margin-top: 10px;
     }
+
+    .stButton button:hover {
+        background-color: var(--primary-color) !important;
+        transform: scale(1.01);
+    }
+
+    /* Cartes de résultats */
+    .stInfo, div[data-testid="stMetricValue"] {
+        background-color: white !important;
+        border: 1px solid var(--card-border) !important;
+        border-radius: 20px !important;
+        padding: 1.5rem !important;
+        color: var(--text-main) !important;
+    }
+
+    /* Ingrédients style moderne */
+    .ingredient-row {
+        background-color: white;
+        padding: 12px 18px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        border: 1px solid #F1F3F5;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s ease;
+    }
+
+    .ingredient-row:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    /* Style du Segmented Control */
+    div[data-testid="stSegmentedControl"] {
+        background: #F1F3F5;
+        padding: 4px;
+        border-radius: 12px;
+    }
+
+    div[data-testid="stSegmentedControl"] button {
+        border: none !important;
+        background: transparent !important;
+        border-radius: 8px !important;
+    }
+
+    div[data-testid="stSegmentedControl"] button[data-selected="true"] {
+        background: white !important;
+        color: var(--primary-color) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    }
+
+    hr {
+        margin: 2em 0 !important;
+        opacity: 0.4;
+    }
+
     </style>
 """, unsafe_allow_html=True)
-
-st.title("🍳 Le Clone 'Clipper' Cuisine")
-st.caption("Analyse multimodale : Audio + Texte via Gemini Flash")
 
 # --- 4. FONCTION D'EXTRACTION ---
 def get_instagram_text(url):
@@ -203,11 +231,20 @@ if st.button("Extraire la recette"):
                     unit = ing.get('unite', '')
                     item = ing.get('item', '')
                     
-                    # Correction ici : on vérifie que q est bien un nombre avant de multiplier
                     if isinstance(q, (int, float)):
                         v = q * ratio
                         display_val = int(v) if v.is_integer() else round(v, 1)
-                        st.write(f"- **{display_val} {unit}** {item}")
+                        # On utilise une div avec la classe 'ingredient-row' définie dans le CSS
+                        st.markdown(f"""
+                            <div class="ingredient-row">
+                                <span style="color:#FF4B4B; font-weight:bold; margin-right:10px;">{display_val} {unit}</span> 
+                                <span style="color:#1A1C1E;">{item}</span>
+                            </div>
+                        """, unsafe_allow_html=True)
                     else:
-                        # Si pas de quantité, on affiche juste l'unité et l'item (ex: "Sel")
-                        st.write(f"- {unit} {item}")
+                        st.markdown(f"""
+                            <div class="ingredient-row">
+                                <span style="color:#1A1C1E;">{unit} {item}</span>
+                            </div>
+                        """, unsafe_allow_html=True)
+
