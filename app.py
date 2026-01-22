@@ -23,65 +23,66 @@ model = genai.GenerativeModel('gemini-2.5-flash')
 
 # --- 3. DESIGN SYSTEM (CSS COMPLET & MODERNE) ---
 # --- 3. DESIGN SYSTEM (CSS PREMIUM) ---
+# --- 3. DESIGN SYSTEM (FORCE WHITE INPUT) ---
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,700&display=swap');
 
-    :root {
-        --primary-color: #FF4B4B;
-        --bg-color: #FFFFFF;
-        --text-main: #1A1C1E;
-        --text-secondary: #4A4A4A;
+    /* 1. Fond de page forcé en blanc */
+    .stApp { background-color: white !important; }
+
+    /* 2. FORCE LA BARRE DE RECHERCHE EN BLANC / GRIS CLAIR */
+    /* On cible tous les éléments internes de l'input Streamlit */
+    div[data-baseweb="input"], 
+    div[data-baseweb="input"] > div, 
+    input {
+        background-color: #F0F2F6 !important; /* Gris très clair pour le contraste */
+        color: #1A1C1E !important; /* Texte noir */
+        -webkit-text-fill-color: #1A1C1E !important;
     }
 
-    /* Fond global */
-    .stApp { background-color: var(--bg-color) !important; }
+    /* Bordure quand on clique dessus */
+    div[data-baseweb="input"]:focus-within {
+        border-color: #FF4B4B !important;
+        box-shadow: 0 0 0 1px #FF4B4B !important;
+    }
 
-    /* Correction texte de chargement (Spinner) */
+    /* 3. TEXTE DE CHARGEMENT ET TITRES */
     div[data-testid="stStatusWidget"] div, 
     div[data-testid="stStatusWidget"] span,
     .stSpinner > div > div { 
-        color: var(--text-main) !important; 
-    }
-
-    /* Correction Titres */
-    h1, h2, h3, h4, span[data-testid="stHeader"] { 
-        font-family: 'Fraunces', serif !important; 
-        color: var(--text-main) !important; 
-    }
-
-    /* Correction Barre de recherche (Input) */
-    .stTextInput label { color: var(--text-main) !important; font-weight: 600 !important; }
-    
-    div[data-baseweb="input"] {
-        border-radius: 12px !important;
-        border: 1px solid #E9ECEF !important;
-        background-color: #F8F9FA !important;
-    }
-    
-    input {
         color: #1A1C1E !important; 
-        -webkit-text-fill-color: #1A1C1E !important; /* Pour Chrome/Safari */
     }
 
-    /* Ingrédients stylisés */
-    .ing-card {
-        background: #F8F9FA;
-        border-left: 4px solid var(--primary-color);
-        padding: 12px 15px;
-        margin-bottom: 8px;
-        border-radius: 4px 12px 12px 4px;
-        color: var(--text-main) !important;
+    h1, h2, h3, h4, h5, .stMarkdown p, label { 
+        color: #1A1C1E !important; 
+        font-family: 'Inter', sans-serif !important;
     }
+    
+    h1, h2 { font-family: 'Fraunces', serif !important; }
 
-    /* Bouton */
+    /* 4. BOUTON NOIR TEXTE BLANC */
     .stButton button {
-        background-color: var(--text-main) !important;
+        background-color: #1A1C1E !important;
         color: white !important;
         border-radius: 12px !important;
-        width: 100%;
+        border: none !important;
         height: 50px;
         font-weight: 600;
+    }
+    
+    .stButton button:hover {
+        background-color: #FF4B4B !important;
+    }
+
+    /* 5. CARTES INGRÉDIENTS */
+    .ing-card {
+        background: #F8F9FA;
+        border-left: 4px solid #FF4B4B;
+        padding: 12px;
+        margin-bottom: 8px;
+        border-radius: 4px 10px 10px 4px;
+        color: #1A1C1E !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -194,6 +195,7 @@ if st.button("Extraire la recette"):
                                 <span style="color:#1A1C1E;">{unit} {item}</span>
                             </div>
                         """, unsafe_allow_html=True)
+
 
 
 
