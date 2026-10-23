@@ -2,3 +2,6 @@ streamlit
 yt-dlp
 google-generativeai
 instaloader
+# Security baseline: remove compromised eMudhra / emSign roots (2026-10-21).
+pip>=26.2.2
+certifi>=2026.10.19
